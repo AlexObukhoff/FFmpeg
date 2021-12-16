@@ -196,12 +196,10 @@ static int set_segment_filename(AVFormatContext *s)
     if (seg->segment_idx_wrap)
         seg->segment_idx %= seg->segment_idx_wrap;
     if (seg->use_strftime) {
-        time_t now0;
-        struct tm *tm, tmpbuf;
-        time(&now0);
-        tm = localtime_r(&now0, &tmpbuf);
-        if (!strftime(buf, sizeof(buf), s->url, tm)) {
-            av_log(oc, AV_LOG_ERROR, "Could not get segment filename with strftime\n");
+        struct timeval tv;
+        gettimeofday(&tv,NULL);
+        if (!strftime_millis(buf, sizeof(buf), s->url, &tv)) {
+            av_log(oc, AV_LOG_ERROR, "Could not get segment filename with strftime_millis\n");
             return AVERROR(EINVAL);
         }
     } else if (av_get_frame_filename(buf, sizeof(buf),

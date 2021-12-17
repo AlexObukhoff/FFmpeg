@@ -7,11 +7,13 @@ size_t strftime_millis(char* ptr, size_t maxsize,const char* format, const struc
     struct tm *tm;
     size_t result;
     char* temp_name = malloc(maxsize);
-    if((tm = localtime(&(tv->tv_sec))) == NULL) return 0;
+    if ((tm = localtime(&(tv->tv_sec))) == NULL)
+    {
+        return 0;
+    }
 	
     strftime(temp_name, maxsize, format, tm);
-    result = snprintf(ptr, maxsize, temp_name, tv->tv_usec/1000);
+    result = snprintf(ptr, maxsize, temp_name, tv->tv_sec, tv->tv_usec);
     free(temp_name);
     return result;
-    
 }

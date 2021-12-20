@@ -42,6 +42,7 @@
 #include "libavutil/timecode.h"
 #include "libavutil/time_internal.h"
 #include "libavutil/timestamp.h"
+#include "libavutil/strftime_millis.h"
 
 typedef struct SegmentListEntry {
     int index;

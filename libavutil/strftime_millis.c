@@ -5,11 +5,12 @@
 size_t strftime_millis(char* ptr, size_t maxsize,const char* format, const struct timeval* tv)
 {
     char* temp_name;
-    struct tm *tm, tmpbuf;
+    struct tm tm;
     size_t result;
-    tm = localtime_r(&(tv->tv_sec), &tmpbuf);
-    if (tm == NULL)
+    errno_t error = localtime_s(&tm, &(tv->tv_sec));
+    if (error)
     {
+        fprintf(stderr, "localtime_s failed: errno=%d\n", error);
         return -1;
     }
 	

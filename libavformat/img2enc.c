@@ -27,6 +27,7 @@
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "libavutil/time_internal.h"
+#include "libavutil/strftime_millis.h"
 #include "avformat.h"
 #include "avio_internal.h"
 #include "internal.h"
@@ -142,11 +143,9 @@ static int write_packet(AVFormatContext *s, AVPacket *pkt)
     if (img->update) {
         av_strlcpy(filename, s->url, sizeof(filename));
     } else if (img->use_strftime) {
-        time_t now0;
-        struct tm *tm, tmpbuf;
-        time(&now0);
-        tm = localtime_r(&now0, &tmpbuf);
-        if (!strftime(filename, sizeof(filename), s->url, tm)) {
+        struct timeval tv;
+        gettimeofday(&tv,NULL);
+        if (!strftime_millis(filename, sizeof(filename), s->url, &tv)) {
             av_log(s, AV_LOG_ERROR, "Could not get frame filename with strftime\n");
             return AVERROR(EINVAL);
         }

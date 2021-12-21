@@ -12,7 +12,10 @@ size_t strftime_millis(char* ptr, size_t maxsize,const char* format, const struc
         return -1;
     }
 	
-    strftime(temp_name, maxsize, format, tm);
+    result = strftime(temp_name, maxsize, format, tm);
+    if (result == 0)
+        return -2;
+        
     result = snprintf(ptr, maxsize, temp_name, tv->tv_sec, tv->tv_usec);
     free(temp_name);
     return result;

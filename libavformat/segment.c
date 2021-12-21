@@ -199,7 +199,7 @@ static int set_segment_filename(AVFormatContext *s)
     if (seg->use_strftime) {
         struct timeval tv;
         gettimeofday(&tv,NULL);
-        if (!strftime_millis(buf, sizeof(buf), s->url, &tv)) {
+        if (strftime_millis(buf, sizeof(buf), s->url, &tv) <= 0) {
             av_log(oc, AV_LOG_ERROR, "Could not get segment filename with strftime_millis\n");
             return AVERROR(EINVAL);
         }

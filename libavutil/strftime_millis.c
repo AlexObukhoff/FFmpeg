@@ -9,7 +9,7 @@ size_t strftime_millis(char* ptr, size_t maxsize,const char* format, const struc
     char* temp_name = malloc(maxsize);
     if ((tm = localtime(&(tv->tv_sec))) == NULL)
     {
-        return 0;
+        return -1;
     }
 	
     strftime(temp_name, maxsize, format, tm);

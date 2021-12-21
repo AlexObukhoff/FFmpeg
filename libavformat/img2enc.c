@@ -151,7 +151,7 @@ static int write_packet(AVFormatContext *s, AVPacket *pkt)
         }
         ret = strftime_millis(filename, sizeof(filename), s->url, &tv);
         if (ret <= 0) {
-            av_log(s, AV_LOG_ERROR, "Could not get frame filename with strftime_millis(): tv=(%ld, %ld)\n", tv.tv_sec, tv.tv_usec);
+            av_log(s, AV_LOG_ERROR, "Could not get frame filename with strftime_millis(): tv=(%ld, %ld)->%d\n", tv.tv_sec, tv.tv_usec, ret);
             return AVERROR(EINVAL);
         }
     } else if (img->frame_pts) {

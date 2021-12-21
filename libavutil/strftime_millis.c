@@ -15,7 +15,7 @@ size_t strftime_millis(char* ptr, size_t maxsize,const char* format, const struc
     }
 	
     temp_name = malloc(maxsize);
-    result = strftime(temp_name, maxsize, format, tm);
+    result = strftime(temp_name, maxsize, format, &tm);
     if (result == 0)
     {
         free(temp_name);

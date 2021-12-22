@@ -144,13 +144,8 @@ static int write_packet(AVFormatContext *s, AVPacket *pkt)
         av_strlcpy(filename, s->url, sizeof(filename));
     } else if (img->use_strftime) {
         struct timeval tv;
-        ret = gettimeofday(&tv,NULL);
-        if (ret != 0) {
-            av_log(s, AV_LOG_ERROR, "Could not gettimeofday(): %d\n", errno);
-            return AVERROR(EINVAL);
-        }
-        ret = strftime_millis(filename, sizeof(filename), s->url, &tv);
-        if (ret <= 0) {
+        gettimeofday(&tv,NULL);
+        if (strftime_millis(filename, sizeof(filename), s->url, &tv) <= 0) {
             av_log(s, AV_LOG_ERROR, "Could not get frame filename with strftime_millis(): tv=(%ld, %ld)->%d errno=%d\n", tv.tv_sec, tv.tv_usec, ret, errno);
             return AVERROR(EINVAL);
         }

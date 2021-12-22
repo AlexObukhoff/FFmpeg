@@ -7,7 +7,7 @@ size_t strftime_millis(char* ptr, size_t maxsize,const char* format, const struc
     char* temp_name;
     struct tm tm;
     size_t result;
-    errno_t error = localtime_s(&tm, &(tv->tv_sec));
+    errno_t error = _localtime32_s(&tm, &(tv->tv_sec));
     if (error)
     {
         fprintf(stderr, "localtime_s failed: errno=%d\n", error);
@@ -15,13 +15,7 @@ size_t strftime_millis(char* ptr, size_t maxsize,const char* format, const struc
     }
 	
     temp_name = malloc(maxsize);
-    result = strftime(temp_name, maxsize, format, &tm);
-    if (result == 0)
-    {
-        free(temp_name);
-        return -2;
-    }
-
+    strftime(temp_name, maxsize, format, &tm);
     result = snprintf(ptr, maxsize, temp_name, tv->tv_sec, tv->tv_usec);
     free(temp_name);
     return result;
